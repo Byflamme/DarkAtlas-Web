@@ -3,9 +3,6 @@
 
 <head>
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3537369034617104"
-     crossorigin="anonymous"></script>
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <meta charset="UTF-8">
@@ -15,6 +12,183 @@
 
 
 <style>
+
+
+#login-page{
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100vh;
+
+
+background:
+
+radial-gradient(
+circle at center,
+#500000,
+#050505 70%
+);
+
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+
+z-index:9999;
+
+
+}
+
+
+
+.login-box{
+
+
+width:420px;
+
+padding:45px;
+
+
+background:
+
+linear-gradient(
+145deg,
+#080808,
+#350000
+);
+
+
+border:2px solid red;
+
+border-radius:35px;
+
+
+box-shadow:
+
+0 0 40px red,
+0 0 100px rgba(255,0,0,.4);
+
+
+text-align:center;
+
+
+}
+
+
+
+.login-box h1{
+
+color:red;
+
+font-size:45px;
+
+margin-bottom:35px;
+
+text-shadow:
+
+0 0 20px red;
+
+
+}
+
+
+
+.login-box input{
+
+
+width:100%;
+
+padding:18px;
+
+margin-bottom:20px;
+
+
+background:#050505;
+
+
+border:1px solid red;
+
+
+border-radius:15px;
+
+
+color:white;
+
+
+font-size:18px;
+
+
+}
+
+
+
+.login-box button{
+
+
+width:100%;
+
+
+padding:18px;
+
+
+background:
+
+linear-gradient(
+90deg,
+#700000,
+#ff0000
+);
+
+
+border:none;
+
+
+border-radius:15px;
+
+
+color:white;
+
+
+font-size:20px;
+
+
+cursor:pointer;
+
+
+box-shadow:
+
+0 0 25px red;
+
+
+}
+
+
+
+.login-box p{
+
+margin-top:25px;
+
+color:#aaa;
+
+}
+
+
+
+.login-box a{
+
+color:red;
+
+cursor:pointer;
+
+}
+
 
 
 .profile-header{
@@ -453,14 +627,31 @@ padding:35px;
 
 .header{
 
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:80px;
+
 display:flex;
 
 justify-content:space-between;
 
 align-items:center;
 
-margin-bottom:40px;
+padding:0 60px;
 
+background:rgba(0,0,0,.35);
+
+backdrop-filter:blur(15px);
+
+border-bottom:1px solid rgba(255,0,0,.15);
+
+z-index:999;
 
 }
 
@@ -468,19 +659,19 @@ margin-bottom:40px;
 
 .logo{
 
-font-size:45px;
+font-size:30px;
 
 font-weight:bold;
 
-color:#ff2020;
-
+color:#ff3333;
 
 text-shadow:
 
-0 0 20px red,
+0 0 12px red,
 
-0 0 50px red;
+0 0 30px red;
 
+white-space:nowrap;
 
 }
 
@@ -848,43 +1039,704 @@ color:#aaa;
 
 }
 
+
+/* ================= MOBILE ================= */
+
 @media screen and (max-width:768px){
 
-    .card{
-        width:100%;
-        max-width:100%;
-        overflow:hidden;
-        padding:20px;
-    }
+.container{
+    width:100%;
+    max-width:100%;
+    padding:8px;
+}
 
-    .info-grid{
-        display:flex;
-        flex-direction:column;
-        width:100%;
-        gap:12px;
-    }
+.hero{
+    padding:25px;
+}
 
-    .info-box{
-        width:100%;
-        max-width:100%;
-        overflow:hidden;
-        display:flex;
-        align-items:flex-start;
-    }
+.hero h1{
+    font-size:34px;
+}
 
-    .info-box div{
-        min-width:0;
-        flex:1;
-        overflow-wrap:anywhere;
-        word-break:break-word;
-    }
+.logo{
+    font-size:30px;
+}
 
-    .info-box a{
-        overflow-wrap:anywhere;
-        word-break:break-word;
-    }
+.badge{
+    font-size:13px;
+    padding:8px 14px;
+}
+
+.card{
+    width:100%;
+    padding:22px;
+    margin-top:20px;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.profile-header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:15px;
+}
+
+.actions{
+    width:100%;
+    justify-content:space-between;
+    margin-left:0;
+}
+
+.info-grid{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.info-box{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    width:100%;
+    overflow:hidden;
+}
+
+.info-box i{
+    flex-shrink:0;
+    margin-top:3px;
+}
+
+.info-box div{
+    flex:1;
+    min-width:0;
+    word-break:break-word;
+    overflow-wrap:anywhere;
+    white-space:normal;
+}
+
+.info-box a{
+    word-break:break-word;
+    overflow-wrap:anywhere;
+    white-space:normal;
+}
+
+.sources{
+    word-break:break-word;
+    overflow-wrap:anywhere;
+}
+
+.field input{
+    width:100%;
+}
 
 }
+
+.info-box{
+    flex-wrap:wrap;
+}
+
+.info-box div{
+    width:100%;
+    min-width:0;
+}
+
+.info-box b{
+    display:block;
+    margin-bottom:5px;
+}
+
+.info-box i{
+    width:28px;
+}
+
+.card{
+    max-width:100%;
+    overflow:hidden;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+.hero{
+    width:100%;
+}
+
+#panel{
+    width:100%;
+    padding:20px;
+}
+
+.info-grid{
+    width:100%;
+}
+
+
+/* MENU */
+
+.navbar{
+
+display:flex;
+
+gap:35px;
+
+}
+
+.navbar a{
+
+color:white;
+
+text-decoration:none;
+
+font-size:17px;
+
+transition:.3s;
+
+position:relative;
+
+}
+
+.navbar a:hover{
+
+color:#ff3333;
+
+}
+
+.navbar a::after{
+
+content:"";
+
+position:absolute;
+
+bottom:-8px;
+
+left:0;
+
+width:0;
+
+height:2px;
+
+background:red;
+
+transition:.3s;
+
+}
+
+.navbar a:hover::after{
+
+width:100%;
+
+}
+
+/* BOUTON */
+
+.login-btn{
+
+padding:14px 28px;
+
+border:none;
+
+border-radius:14px;
+
+cursor:pointer;
+
+font-size:16px;
+
+background:linear-gradient(90deg,#6d0000,#ff0000);
+
+color:white;
+
+box-shadow:
+
+0 0 15px red,
+
+0 0 40px rgba(255,0,0,.5);
+
+transition:.3s;
+
+}
+
+.login-btn:hover{
+
+transform:translateY(-2px);
+
+box-shadow:
+
+0 0 20px red,
+
+0 0 60px red;
+
+}
+
+/* POUR QUE LE HEADER NE CACHE PAS LE CONTENU */
+
+body{
+
+padding-top:90px;
+
+}
+
+
+.hero{
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+margin-top:70px;
+
+text-align:center;
+
+background:none;
+
+border:none;
+
+box-shadow:none;
+
+}
+
+.hero-logo{
+
+font-size:90px;
+
+filter:drop-shadow(0 0 25px red);
+
+margin-bottom:15px;
+
+animation:flamme 2s infinite;
+
+}
+
+.hero h1{
+
+font-size:90px;
+
+color:#ff2020;
+
+font-family:Georgia,serif;
+
+text-shadow:
+
+0 0 15px red,
+
+0 0 40px red;
+
+margin-bottom:20px;
+
+}
+
+.hero h2{
+
+font-size:40px;
+
+font-weight:300;
+
+color:#dddddd;
+
+}
+
+.hero h2 span{
+
+color:#ff3333;
+
+}
+
+@keyframes flamme{
+
+0%{
+
+transform:scale(1);
+
+}
+
+50%{
+
+transform:scale(1.08);
+
+}
+
+100%{
+
+transform:scale(1);
+
+}
+
+}
+
+
+/* ========================= */
+/* BARRE DE RECHERCHE */
+/* ========================= */
+
+.search-container{
+
+margin-top:60px;
+
+width:1100px;
+
+max-width:95%;
+
+position:relative;
+
+}
+
+.search-bar{
+
+display:flex;
+
+align-items:center;
+
+background:#080808;
+
+border:2px solid rgba(255,0,0,.4);
+
+border-radius:20px;
+
+padding:18px;
+
+box-shadow:
+
+0 0 25px rgba(255,0,0,.3);
+
+overflow:hidden;
+
+position:relative;
+
+}
+
+.search-bar i{
+
+font-size:30px;
+
+color:white;
+
+margin:0 20px;
+
+}
+
+.search-bar input{
+
+flex:1;
+
+background:none;
+
+border:none;
+
+outline:none;
+
+font-size:30px;
+
+color:white;
+
+}
+
+.search-bar input::placeholder{
+
+color:#666;
+
+}
+
+.search-bar button{
+
+width:230px;
+
+height:75px;
+
+border:none;
+
+border-radius:15px;
+
+cursor:pointer;
+
+font-size:30px;
+
+color:white;
+
+background:linear-gradient(90deg,#8a0000,#ff0000);
+
+box-shadow:
+
+0 0 20px red,
+
+0 0 50px rgba(255,0,0,.6);
+
+transition:.3s;
+
+}
+
+.search-bar button:hover{
+
+transform:scale(1.05);
+
+box-shadow:
+
+0 0 35px red,
+
+0 0 80px red;
+
+}
+
+
+.laser{
+
+position:absolute;
+
+left:80px;
+
+right:250px;
+
+top:50%;
+
+height:4px;
+
+background:
+
+linear-gradient(
+
+90deg,
+
+transparent,
+
+red,
+
+white,
+
+red,
+
+transparent
+
+);
+
+box-shadow:
+
+0 0 15px red,
+
+0 0 35px red;
+
+animation:laserMove 2.5s infinite;
+
+}
+
+@keyframes laserMove{
+
+0%{
+
+transform:translateX(-100%);
+
+opacity:0;
+
+}
+
+15%{
+
+opacity:1;
+
+}
+
+50%{
+
+transform:translateX(0);
+
+}
+
+100%{
+
+transform:translateX(100%);
+
+opacity:0;
+
+}
+
+}
+
+
+#resultats{
+    display:flex;
+    flex-direction:column;
+    gap:40px;
+}
+
+
+#resultats .card{
+    margin:0;
+}
+
+
+#resultats{
+    display:flex;
+    flex-direction:column;
+    gap:35px;
+    width:100%;
+}
+
+
+#resultats .card{
+    margin-top:0;
+    width:100%;
+    background:
+    linear-gradient(
+        145deg,
+        #300000,
+        #080000
+    );
+
+    border:1px solid red;
+    border-radius:30px;
+    padding:35px;
+}
+
+
+
+#resultats{
+    display:flex;
+    flex-direction:column;
+    gap:35px;
+    width:100%;
+}
+
+
+#resultats .card{
+    margin-top:0;
+    width:100%;
+    background:
+    linear-gradient(
+        145deg,
+        #300000,
+        #080000
+    );
+
+    border:1px solid red;
+    border-radius:30px;
+    padding:35px;
+}
+
+
+/* ========================= */
+/* COMPTE */
+/* ========================= */
+
+
+#account-box{
+
+display:none;
+
+position:fixed;
+
+top:50%;
+
+left:50%;
+
+transform:translate(-50%,-50%);
+
+width:400px;
+
+padding:35px;
+
+background:
+
+linear-gradient(
+145deg,
+#300000,
+#080000
+);
+
+border:1px solid red;
+
+border-radius:25px;
+
+box-shadow:
+
+0 0 50px red;
+
+z-index:9999;
+
+text-align:center;
+
+}
+
+
+#account-box h2{
+
+color:#ff3333;
+
+margin-bottom:25px;
+
+}
+
+
+
+#account-box input{
+
+width:100%;
+
+padding:15px;
+
+margin:10px 0;
+
+background:#050505;
+
+border:1px solid red;
+
+border-radius:12px;
+
+color:white;
+
+font-size:16px;
+
+}
+
+
+
+.account-btn{
+
+width:100%;
+
+padding:15px;
+
+margin-top:15px;
+
+border:none;
+
+border-radius:15px;
+
+cursor:pointer;
+
+background:
+
+linear-gradient(
+90deg,
+#700000,
+#ff0000
+);
+
+color:white;
+
+font-size:18px;
+
+}
+
+
+
+#overlay{
+
+display:none;
+
+position:fixed;
+
+inset:0;
+
+background:rgba(0,0,0,.75);
+
+z-index:9998;
+
+}
+
+
+
 
 </style>
 
@@ -894,6 +1746,48 @@ color:#aaa;
 
 
 <body>
+
+
+
+<div id="login-page">
+
+
+<div class="login-box">
+
+
+<h1>
+🔥 Dark Atlas
+</h1>
+
+
+<input 
+id="pseudo"
+placeholder="Pseudo">
+
+
+<input 
+id="password"
+type="password"
+placeholder="Mot de passe">
+
+
+<button onclick="inscription()">
+S'inscrire
+</button>
+
+
+<p>
+Déjà un compte ?
+<a onclick="connexion()">
+Connexion
+</a>
+</p>
+
+
+</div>
+
+
+</div>
 
 
 
@@ -913,13 +1807,55 @@ class="discord-btn">
 <div id="cursor-light"></div>
 
 
+<div id="overlay"></div>
+
+
+<div id="account-box">
+
+<h2>
+🔥 Compte Dark Atlas
+</h2>
+
+
+<input 
+id="pseudo"
+placeholder="Pseudo">
+
+
+<input 
+id="password"
+type="password"
+placeholder="Mot de passe">
+
+
+
+<button class="account-btn" onclick="creerCompte()">
+
+Créer un compte
+
+</button>
+
+
+
+<button class="account-btn" onclick="connexion()">
+
+Connexion
+
+</button>
+
+
+<p id="account-message"></p>
+
+
+</div>
+
+
 
 <div class="container">
 
 
 
-<header class="header">
-
+<<header class="header">
 
 <div class="logo">
 
@@ -927,13 +1863,27 @@ class="discord-btn">
 
 </div>
 
+<nav class="navbar">
 
-<div class="badge">
+<a href="#">Accueil</a>
 
-OSINT SEARCH
+<a href="#">Outils</a>
 
-</div>
+<a href="#">Tarifs</a>
 
+<a href="#">À propos</a>
+
+<a href="#">Contact</a>
+
+</nav>
+
+<button id="user-zone" class="login-btn" onclick="ouvrirCompte()">
+
+<i class="fa-regular fa-user"></i>
+
+Connexion
+
+</button>
 
 </header>
 
@@ -944,38 +1894,47 @@ OSINT SEARCH
 
 <section class="hero">
 
+<div class="hero-logo">
+
+🔥
+
+</div>
 
 <h1>
 
-Recherche avancée
+𝔇𝔞𝔯𝔨 𝔄𝔱𝔩𝔞𝔰
 
 </h1>
 
+<h2>
 
+Outils d'OSINT pour vos recherches
 
-<p>
+</h2>
 
-Explore les archives 𝔇𝔞𝔯𝔨 𝔄𝔱𝔩𝔞𝔰 avec des critères personnalisés.
+<div class="search-container">
 
-</p>
+<div class="laser"></div>
 
+<div class="search-bar">
 
+<i class="fa-solid fa-magnifying-glass"></i>
 
+<input
+type="text"
+placeholder="Recherche...">
 
-<button class="main-btn" onclick="ouvrirRecherche()">
-
+<button onclick="verifierCompte()">
 
 🔎 Ouvrir la recherche
 
-
 </button>
 
+</div>
 
+</div>
 
 </section>
-
-
-
 
 
 
@@ -1335,6 +2294,67 @@ Ajouter
 <script>
 
 
+
+
+
+function inscription(){
+
+let pseudo=document.getElementById("pseudo").value;
+let password=document.getElementById("password").value;
+
+
+if(!pseudo || !password){
+
+alert("Remplis tous les champs");
+
+return;
+
+}
+
+function afficherConnexion(){
+
+    document.getElementById("login-page").style.display = "flex";
+
+}
+
+
+window.onload=function(){
+
+    let user = JSON.parse(
+        localStorage.getItem("darkatlas_user")
+    );
+
+
+    if(user){
+
+        document.getElementById("user-zone").innerHTML =
+        "🔥 " + user.pseudo;
+
+    }
+
+}
+
+
+
+localStorage.setItem(
+"darkatlas_user",
+JSON.stringify({
+pseudo:pseudo,
+password:password
+})
+);
+
+
+alert("Compte créé");
+
+
+document.getElementById("login-page").style.display="none";
+
+
+}
+
+
+
 // =====================
 // LUMIERE SOURIS
 // =====================
@@ -1644,7 +2664,7 @@ fonction:recherche["Fonction"] || ""
 
 let data=await response.json();
 
-
+console.log("DATA COMPLETE :", JSON.stringify(data,null,2));
 
 console.log(data);
 
@@ -1693,9 +2713,9 @@ data.data.results.forEach(personne=>{
 
 
 
-let sources=personne._sources 
+let sources = Array.isArray(personne._sources)
 ? personne._sources.join(" • ")
-:"Aucune source";
+: "Aucune source";
 
 
 
@@ -2104,37 +3124,6 @@ resultats.innerHTML="❌ Erreur : "+error.message;
 function copierInfos(btn){
 
 
-let card = btn.parentElement;
-
-
-let texte = card.innerText;
-
-
-
-navigator.clipboard.writeText(texte);
-
-
-
-let message = card.querySelector(".copy-message");
-
-
-message.style.display="block";
-
-
-setTimeout(()=>{
-
-message.style.display="none";
-
-},2000);
-
-
-
-}
-
-
-function copierInfos(btn){
-
-
 let card = btn.closest(".card");
 
 
@@ -2160,6 +3149,171 @@ btn.innerHTML='<i class="fa-solid fa-copy"></i>';
 
 
 }
+
+
+
+function verifierCompte(){
+
+    let compte = JSON.parse(
+        localStorage.getItem("darkatlas_user")
+    );
+
+    if(compte){
+
+        ouvrirRecherche();
+
+    }else{
+
+        afficherConnexion();
+
+    }
+
+}
+
+
+
+
+function creerCompte(){
+
+let pseudo=document.getElementById("pseudo").value;
+let password=document.getElementById("password").value;
+
+
+if(!pseudo || !password){
+
+alert("Remplis tous les champs");
+
+return;
+
+}
+
+
+let compte={
+
+pseudo:pseudo,
+password:password
+
+};
+
+
+localStorage.setItem(
+"darkatlas_compte",
+JSON.stringify(compte)
+);
+
+
+alert("Compte créé !");
+
+ouvrirRecherche();
+
+
+}
+
+
+
+
+
+function connexion(){
+
+let compte=JSON.parse(
+localStorage.getItem("darkatlas_compte")
+);
+
+
+let pseudo=document.getElementById("pseudo").value;
+let password=document.getElementById("password").value;
+
+
+if(!compte){
+
+alert("Aucun compte créé");
+
+return;
+
+}
+
+
+
+if(
+pseudo===compte.pseudo &&
+password===compte.password
+){
+
+alert("Connexion réussie");
+
+ouvrirRecherche();
+
+}
+
+else{
+
+alert("Pseudo ou mot de passe incorrect");
+
+}
+
+
+}
+
+
+window.addEventListener("load", () => {
+
+    const userZone = document.getElementById("user-zone");
+
+    if(!userZone) return;
+
+
+    let user = JSON.parse(
+        localStorage.getItem("darkatlas_user")
+    );
+
+
+    if(user && user.pseudo){
+
+        userZone.innerHTML = "🔥 " + user.pseudo;
+
+    } else {
+
+        userZone.innerHTML = `
+        <i class="fa-regular fa-user"></i>
+        Connexion
+        `;
+
+    }
+
+});
+
+
+function creerCompte(){
+
+    let pseudo = document.getElementById("pseudo").value;
+    let password = document.getElementById("password").value;
+
+
+    if(pseudo === "" || password === ""){
+        alert("Remplis tous les champs");
+        return;
+    }
+
+
+    let user = {
+        pseudo:pseudo,
+        password:password
+    };
+
+
+    localStorage.setItem(
+        "darkatlas_user",
+        JSON.stringify(user)
+    );
+
+
+    alert("Compte créé avec succès 🔥");
+
+
+    location.reload();
+
+}
+
 
 
 </script>
