@@ -14,6 +14,95 @@
 <style>
 
 
+.admin-page{
+
+display:none;
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100vh;
+
+background:
+radial-gradient(circle,#450000,#050505 70%);
+
+z-index:999999;
+
+padding:40px;
+
+overflow:auto;
+
+}
+
+.back-btn{
+
+background:#300000;
+
+border:1px solid red;
+
+color:white;
+
+padding:12px 20px;
+
+border-radius:12px;
+
+cursor:pointer;
+
+margin-bottom:40px;
+
+}
+
+.admin-page h1{
+
+font-size:45px;
+
+color:#ff3333;
+
+margin-bottom:40px;
+
+}
+
+.admin-list{
+
+display:flex;
+
+flex-direction:column;
+
+gap:20px;
+
+}
+
+.admin-item{
+
+padding:20px;
+
+background:#111;
+
+border:1px solid red;
+
+border-radius:15px;
+
+font-size:22px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.admin-item:hover{
+
+transform:translateX(10px);
+
+box-shadow:0 0 20px red;
+
+}
+
+
+
 #login-page{
 
 position:fixed;
@@ -1736,6 +1825,291 @@ z-index:9998;
 }
 
 
+#admin-panel{
+
+display:none;
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100vh;
+
+background:rgba(0,0,0,.95);
+
+z-index:99999;
+
+justify-content:center;
+align-items:center;
+
+}
+
+.admin-box{
+
+width:900px;
+
+padding:40px;
+
+border:2px solid red;
+
+border-radius:30px;
+
+background:linear-gradient(145deg,#350000,#080808);
+
+box-shadow:0 0 40px red;
+
+}
+
+.admin-box h1{
+
+text-align:center;
+
+color:#ff3333;
+
+margin-bottom:40px;
+
+}
+
+.admin-grid{
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:25px;
+
+}
+
+.admin-card{
+
+padding:35px;
+
+background:#120000;
+
+border:1px solid red;
+
+border-radius:20px;
+
+text-align:center;
+
+font-size:24px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.admin-card:hover{
+
+transform:scale(1.05);
+
+box-shadow:0 0 20px red;
+
+}
+
+
+#admin-panel{
+
+display:none;
+
+position:fixed;
+
+inset:0;
+
+background:rgba(0,0,0,.85);
+
+backdrop-filter:blur(15px);
+
+z-index:999999;
+
+align-items:center;
+
+justify-content:center;
+
+}
+
+
+.admin-container{
+
+width:90%;
+
+max-width:1100px;
+
+background:
+
+linear-gradient(
+145deg,
+#250000,
+#050505
+);
+
+border:2px solid red;
+
+border-radius:35px;
+
+padding:35px;
+
+box-shadow:
+
+0 0 50px red;
+
+}
+
+
+
+.admin-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:40px;
+
+}
+
+
+
+.admin-header h1{
+
+color:#ff3333;
+
+font-size:40px;
+
+text-shadow:
+
+0 0 20px red;
+
+}
+
+
+
+.admin-header button{
+
+width:45px;
+
+height:45px;
+
+border-radius:50%;
+
+background:#250000;
+
+border:1px solid red;
+
+color:white;
+
+font-size:22px;
+
+cursor:pointer;
+
+}
+
+
+
+.admin-grid{
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:25px;
+
+}
+
+
+
+.admin-card{
+
+background:
+
+linear-gradient(
+145deg,
+#300000,
+#080808
+);
+
+border:1px solid #660000;
+
+border-radius:25px;
+
+padding:35px;
+
+text-align:center;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+
+
+.admin-card:hover{
+
+transform:translateY(-8px);
+
+border-color:red;
+
+box-shadow:
+
+0 0 30px red;
+
+}
+
+
+
+.admin-card i{
+
+font-size:45px;
+
+color:#ff3333;
+
+}
+
+
+
+.admin-card h3{
+
+margin-top:20px;
+
+color:#ff4444;
+
+font-size:22px;
+
+}
+
+
+
+.admin-card p{
+
+margin-top:10px;
+
+color:#aaa;
+
+}
+
+
+
+@media(max-width:800px){
+
+.admin-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.admin-container{
+
+padding:20px;
+
+}
+
+}
+
 
 
 </style>
@@ -1786,6 +2160,17 @@ Connexion
 
 </div>
 
+
+</div>
+
+
+<div id="admin-content">
+
+<h2>
+</h2>
+
+<p>
+</p>
 
 </div>
 
@@ -1882,6 +2267,14 @@ Connexion
 <i class="fa-regular fa-user"></i>
 
 Connexion
+
+<button
+id="admin-btn"
+class="login-btn"
+style="display:none;"
+onclick="ouvrirAdmin()">
+
+👑 Admin
 
 </button>
 
@@ -2311,28 +2704,6 @@ return;
 
 }
 
-function afficherConnexion(){
-
-    document.getElementById("login-page").style.display = "flex";
-
-}
-
-
-window.onload=function(){
-
-    let user = JSON.parse(
-        localStorage.getItem("darkatlas_user")
-    );
-
-
-    if(user){
-
-        document.getElementById("user-zone").innerHTML =
-        "🔥 " + user.pseudo;
-
-    }
-
-}
 
 
 
@@ -3173,19 +3544,6 @@ function verifierCompte(){
 
 
 
-function creerCompte(){
-
-let pseudo=document.getElementById("pseudo").value;
-let password=document.getElementById("password").value;
-
-
-if(!pseudo || !password){
-
-alert("Remplis tous les champs");
-
-return;
-
-}
 
 
 let compte={
@@ -3196,27 +3554,13 @@ password:password
 };
 
 
-localStorage.setItem(
-"darkatlas_compte",
-JSON.stringify(compte)
-);
-
-
-alert("Compte créé !");
-
-ouvrirRecherche();
-
-
-}
-
-
 
 
 
 function connexion(){
 
 let compte=JSON.parse(
-localStorage.getItem("darkatlas_compte")
+localStorage.getItem("darkatlas_user")
 );
 
 
@@ -3254,33 +3598,29 @@ alert("Pseudo ou mot de passe incorrect");
 
 }
 
-
-window.addEventListener("load", () => {
-
-    const userZone = document.getElementById("user-zone");
-
-    if(!userZone) return;
-
+window.addEventListener("load", function(){
 
     let user = JSON.parse(
         localStorage.getItem("darkatlas_user")
     );
 
+    if(user){
 
-    if(user && user.pseudo){
+        document.getElementById("login-page").style.display = "none";
 
-        userZone.innerHTML = "🔥 " + user.pseudo;
+        document.getElementById("user-zone").innerHTML =
+        "🔥 " + user.pseudo;
 
-    } else {
-
-        userZone.innerHTML = `
-        <i class="fa-regular fa-user"></i>
-        Connexion
-        `;
+        // Seul La_flamme voit le bouton Admin
+        if(user.pseudo === "La_flamme"){
+            document.getElementById("admin-btn").style.display = "inline-block";
+        }
 
     }
 
 });
+
+
 
 
 function creerCompte(){
@@ -3288,35 +3628,462 @@ function creerCompte(){
     let pseudo = document.getElementById("pseudo").value;
     let password = document.getElementById("password").value;
 
-
-    if(pseudo === "" || password === ""){
+    if(pseudo==="" || password===""){
         alert("Remplis tous les champs");
         return;
     }
 
-
     let user = {
         pseudo:pseudo,
-        password:password
+        password:password,
+        connecte:true
     };
-
 
     localStorage.setItem(
         "darkatlas_user",
         JSON.stringify(user)
     );
 
-
-    alert("Compte créé avec succès 🔥");
-
-
     location.reload();
 
 }
 
 
+function ouvrirAdmin(){
+
+document.getElementById("admin-panel").style.display="flex";
+
+}
+
+
+function fermerAdmin(){
+
+document.getElementById("admin-panel").style.display="none";
+
+}
+
+
+function ouvrirSectionAdmin(section){
+
+let box = document.getElementById("admin-content");
+
+
+if(!box){
+    alert("admin-content manquant");
+    return;
+}
+
+
+if(section==="users"){
+
+box.innerHTML=`
+
+<h2>
+<i class="fa-solid fa-users"></i>
+Utilisateurs
+</h2>
+
+<p>
+Aucun utilisateur chargé pour le moment.
+</p>
+
+`;
+
+}
+
+
+if(section==="search"){
+    alert("Bientôt disponible");
+}
+
+
+
+if(section==="premium"){
+
+box.innerHTML=`
+
+<h2>
+<i class="fa-solid fa-gem"></i>
+Abonnements
+</h2>
+
+<p>
+Gestion Premium / Lifetime.
+</p>
+
+`;
+
+}
+
+
+
+if(section==="admins"){
+
+box.innerHTML=`
+
+<h2>
+<i class="fa-solid fa-user-shield"></i>
+Administrateurs
+</h2>
+
+<p>
+Gestion des permissions.
+</p>
+
+`;
+
+}
+
+
+
+if(section==="stats"){
+
+box.innerHTML=`
+
+<h2>
+<i class="fa-solid fa-chart-line"></i>
+Statistiques
+</h2>
+
+<p>
+Activité du site.
+</p>
+
+`;
+
+}
+
+}
+
+
+function ouvrirUsers(){
+
+document.getElementById("admin-panel").style.display="none";
+
+document.getElementById("page-users").style.display="block";
+
+}
+
+function retourAdmin(){
+
+document.querySelectorAll(".admin-page").forEach(page=>{
+
+page.style.display="none";
+
+});
+
+document.getElementById("admin-panel").style.display="block";
+
+}
+
+
+function voirComptes(){
+
+    alert("👤 Liste des comptes Dark Atlas");
+
+}
+
+
+function bannirUtilisateur(){
+
+    let pseudo = prompt("Pseudo à bannir :");
+
+    if(pseudo){
+
+        alert("🚫 " + pseudo + " a été banni");
+
+    }
+
+}
+
+
+function supprimerCompte(){
+
+    let pseudo = prompt("Pseudo du compte à supprimer :");
+
+    if(pseudo){
+
+        alert("🗑️ " + pseudo + " supprimé");
+
+    }
+
+}
+
+
+function chercherPseudo(){
+
+    let pseudo = prompt("Chercher un pseudo :");
+
+    if(pseudo){
+
+        alert("🔎 Recherche de : " + pseudo);
+
+    }
+
+}
+
+
+function chercherPseudo(){
+
+let zone = document.getElementById("zone-recherche-user");
+
+
+zone.innerHTML = `
+
+<div class="field">
+
+<label>
+<i class="fa-solid fa-magnifying-glass"></i>
+Chercher un utilisateur
+</label>
+
+
+<input 
+id="admin-pseudo"
+placeholder="Entrer un pseudo">
+
+
+<button class="account-btn" onclick="lancerRechercheUser()">
+
+Rechercher
+
+</button>
+
+
+</div>
+
+<div id="resultat-user"></div>
+
+`;
+
+}
+
+
+
+function lancerRechercheUser(){
+
+
+let pseudo = document.getElementById("admin-pseudo").value;
+
+
+let resultat = document.getElementById("resultat-user");
+
+
+if(pseudo===""){
+
+resultat.innerHTML="❌ Entre un pseudo";
+
+return;
+
+}
+
+
+// pour l'instant test
+
+resultat.innerHTML=`
+
+<div class="card">
+
+<h2>
+👤 ${pseudo}
+</h2>
+
+
+<p>
+Statut : Utilisateur Dark Atlas
+</p>
+
+
+<br>
+
+
+<h3>
+🔎 Recherches effectuées :
+</h3>
+
+
+<p>
+Aucune recherche enregistrée pour le moment.
+</p>
+
+
+</div>
+
+`;
+
+}
+
+
+window.addEventListener("load", function(){
+
+    let user = JSON.parse(
+        localStorage.getItem("darkatlas_user")
+    );
+
+    let adminBtn = document.getElementById("admin-btn");
+
+
+    if(user && user.pseudo === "La_flamme"){
+
+        adminBtn.style.display = "inline-block";
+
+    }else{
+
+        adminBtn.style.display = "none";
+
+    }
+
+});
+
+
 
 </script>
+
+
+<div id="admin-panel">
+
+    <div class="admin-container">
+
+        <div class="admin-header">
+
+            <h1>
+                <i class="fa-solid fa-crown"></i>
+                Dark Atlas Owner
+            </h1>
+
+            <button onclick="fermerAdmin()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <div class="admin-grid">
+
+
+            <div class="admin-card" onclick="ouvrirUsers()">
+                <i class="fa-solid fa-users"></i>
+
+                <h3>
+                    Utilisateurs
+                </h3>
+
+                <p>
+                    Gestion des comptes
+                </p>
+            </div>
+
+
+
+            <div class="admin-card" onclick="ouvrirSectionAdmin('search')">
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <h3>
+                    Recherches
+                </h3>
+
+                <p>
+                    Historique des recherches
+                </p>
+            </div>
+
+
+
+            <div class="admin-card" onclick="ouvrirSectionAdmin('premium')">
+                <i class="fa-solid fa-gem"></i>
+
+                <h3>
+                    Abonnements
+                </h3>
+
+                <p>
+                    Premium / Lifetime
+                </p>
+            </div>
+
+
+
+            <div class="admin-card" onclick="ouvrirSectionAdmin('admins')">
+                <i class="fa-solid fa-user-shield"></i>
+
+                <h3>
+                    Administrateurs
+                </h3>
+
+                <p>
+                    Permissions
+                </p>
+            </div>
+
+
+
+            <div class="admin-card" onclick="ouvrirSectionAdmin('stats')">
+                <i class="fa-solid fa-chart-line"></i>
+
+                <h3>
+                    Statistiques
+                </h3>
+
+                <p>
+                    Activité du site
+                </p>
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+<!-- PAGE UTILISATEURS -->
+
+<div id="page-users" class="admin-page">
+
+    <button class="back-btn" onclick="retourAdmin()">
+        <i class="fa-solid fa-arrow-left"></i>
+        Retour
+    </button>
+
+    <h1>
+        <i class="fa-solid fa-users"></i>
+        Utilisateurs
+    </h1>
+
+    <div class="admin-list">
+
+        <div class="admin-item" onclick="voirComptes()">
+
+    👤 Voir tous les comptes
+
+</div>
+
+
+<div class="admin-item" onclick="bannirUtilisateur()">
+
+    🚫 Bannir un utilisateur
+
+</div>
+
+
+<div class="admin-item" onclick="supprimerCompte()">
+
+    🗑️ Supprimer un compte
+
+</div>
+
+
+<div class="admin-item" onclick="chercherPseudo()">
+
+    🔎 Chercher un pseudo
+
+</div>
+
+<div id="zone-recherche-user"></div>
+
+</div>
+
+</div>
 
 
 </body>
