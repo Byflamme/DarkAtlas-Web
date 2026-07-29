@@ -2688,6 +2688,144 @@ Ajouter
 
 
 
+const SUPABASE_URL = "https://nbxhfzhgkadecimgrjvz.supabase.co";
+
+const SUPABASE_KEY = "sb_publishable_SVJ_dVWvg8yxl6WOBMmCUg_1E3UaewE"
+
+
+async function voirComptes(){
+
+let zone = document.getElementById("zone-recherche-user");
+
+
+zone.innerHTML = "⏳ Chargement des comptes...";
+
+
+let response = await fetch(
+SUPABASE_URL + "/rest/v1/users?select=*",
+{
+method:"GET",
+
+headers:{
+"apikey":SUPABASE_KEY,
+"Authorization":"Bearer " + SUPABASE_KEY
+}
+
+});
+
+
+let comptes = await response.json();
+
+
+
+if(comptes.length === 0){
+
+zone.innerHTML = `
+<div class="card">
+Aucun compte trouvé.
+</div>
+`;
+
+return;
+
+}
+
+
+
+let html = `
+<div class="card">
+
+<h2>
+👥 Liste des comptes
+</h2>
+
+</div>
+`;
+
+
+
+comptes.forEach(user=>{
+
+
+html += `
+
+<div class="card">
+
+<h2>
+👤 ${user.pseudo}
+</h2>
+
+
+<p>
+🔑 Mot de passe : ${user.password}
+</p>
+
+
+<p>
+📅 Créé le : ${user.date_creation || "Inconnu"}
+</p>
+
+
+<button 
+class="account-btn"
+onclick="supprimerCompte('${user.id}')">
+
+🗑️ Supprimer
+
+</button>
+
+
+</div>
+
+`;
+
+
+});
+
+
+
+zone.innerHTML = html;
+
+
+}
+
+
+
+async function supprimerCompte(id){
+
+
+let confirmation = confirm(
+"Supprimer ce compte ?"
+);
+
+
+if(!confirmation) return;
+
+
+
+await fetch(
+SUPABASE_URL + "/rest/v1/users?id=eq."+id,
+{
+
+method:"DELETE",
+
+headers:{
+"apikey":SUPABASE_KEY,
+"Authorization":"Bearer "+SUPABASE_KEY
+}
+
+});
+
+
+
+alert("Compte supprimé 🔥");
+
+
+voirComptes();
+
+
+}
+
 
 
 function inscription(){
@@ -3623,28 +3761,90 @@ window.addEventListener("load", function(){
 
 
 
-function creerCompte(){
+async function creerCompte(){
 
     let pseudo = document.getElementById("pseudo").value;
     let password = document.getElementById("password").value;
 
+
     if(pseudo==="" || password===""){
+
         alert("Remplis tous les champs");
         return;
+
     }
 
-    let user = {
+
+
+    let nouveauCompte = {
+
         pseudo:pseudo,
+
         password:password,
-        connecte:true
+
+        date_creation:new Date().toISOString()
+
     };
 
-    localStorage.setItem(
-        "darkatlas_user",
-        JSON.stringify(user)
+
+
+    let response = await fetch(
+        SUPABASE_URL + "/rest/v1/users",
+        {
+
+            method:"POST",
+
+            headers:{
+
+                "Content-Type":"application/json",
+
+                "apikey":SUPABASE_KEY,
+
+                "Authorization":"Bearer "+SUPABASE_KEY
+
+            },
+
+            body:JSON.stringify(nouveauCompte)
+
+        }
     );
 
-    location.reload();
+
+
+    if(response.ok){
+
+
+        localStorage.setItem(
+
+            "darkatlas_user",
+
+            JSON.stringify({
+
+                pseudo:pseudo,
+
+                connecte:true
+
+            })
+
+        );
+
+
+        alert("Compte créé 🔥");
+
+
+        location.reload();
+
+
+    }
+
+    else{
+
+
+        alert("Erreur création du compte");
+
+
+    }
+
 
 }
 
@@ -3777,48 +3977,122 @@ document.getElementById("admin-panel").style.display="block";
 }
 
 
-function voirComptes(){
+function ouvrirActionAdmin(type){
 
-    alert("👤 Liste des comptes Dark Atlas");
-
-}
+let zone = document.getElementById("zone-action-admin");
 
 
-function bannirUtilisateur(){
+if(type==="comptes"){
 
-    let pseudo = prompt("Pseudo à bannir :");
+zone.innerHTML = `
 
-    if(pseudo){
+<div class="field">
 
-        alert("🚫 " + pseudo + " a été banni");
+<label>
+👤 Liste des comptes
+</label>
 
-    }
+<p>
+Aucun compte chargé pour le moment.
+</p>
 
-}
+</div>
 
-
-function supprimerCompte(){
-
-    let pseudo = prompt("Pseudo du compte à supprimer :");
-
-    if(pseudo){
-
-        alert("🗑️ " + pseudo + " supprimé");
-
-    }
+`;
 
 }
 
 
-function chercherPseudo(){
 
-    let pseudo = prompt("Chercher un pseudo :");
+if(type==="chercher"){
 
-    if(pseudo){
+zone.innerHTML = `
 
-        alert("🔎 Recherche de : " + pseudo);
+<div class="field">
 
-    }
+<label>
+🔎 Chercher un pseudo
+</label>
+
+<input id="recherche-user"
+placeholder="Entrer un pseudo">
+
+
+<button class="account-btn" onclick="chercherUtilisateur()">
+
+Rechercher
+
+</button>
+
+
+<div id="resultat-user"></div>
+
+</div>
+
+`;
+
+}
+
+
+
+if(type==="bannir"){
+
+zone.innerHTML = `
+
+<div class="field">
+
+<label>
+🚫 Bannir un utilisateur
+</label>
+
+
+<input id="pseudo-ban"
+placeholder="Pseudo à bannir">
+
+
+<button class="account-btn" onclick="bannir()">
+
+Bannir
+
+</button>
+
+
+</div>
+
+`;
+
+}
+
+
+
+if(type==="supprimer"){
+
+zone.innerHTML = `
+
+<div class="field">
+
+<label>
+🗑️ Supprimer un compte
+</label>
+
+
+<input id="pseudo-delete"
+placeholder="Pseudo à supprimer">
+
+
+<button class="account-btn" onclick="supprimer()">
+
+Supprimer
+
+</button>
+
+
+</div>
+
+`;
+
+}
+
 
 }
 
@@ -3937,6 +4211,56 @@ window.addEventListener("load", function(){
 
 
 
+function chercherUtilisateur(){
+
+let pseudo=document.getElementById("recherche-user").value;
+
+
+document.getElementById("resultat-user").innerHTML=`
+
+<div class="card">
+
+<h2>
+👤 ${pseudo}
+</h2>
+
+<p>
+Compte trouvé.
+</p>
+
+<p>
+🔎 Recherches : bientôt connecté aux données.
+</p>
+
+</div>
+
+`;
+
+}
+
+
+
+function bannir(){
+
+let pseudo=document.getElementById("pseudo-ban").value;
+
+alert("🚫 "+pseudo+" a été banni");
+
+}
+
+
+
+function supprimer(){
+
+let pseudo=document.getElementById("pseudo-delete").value;
+
+alert("🗑️ "+pseudo+" supprimé");
+
+}
+
+
+
+
 </script>
 
 
@@ -4052,32 +4376,27 @@ window.addEventListener("load", function(){
 
     <div class="admin-list">
 
-        <div class="admin-item" onclick="voirComptes()">
-
-    👤 Voir tous les comptes
-
+        <div class="admin-item" onclick="ouvrirActionAdmin('comptes')">
+👤 Voir tous les comptes
 </div>
 
 
-<div class="admin-item" onclick="bannirUtilisateur()">
-
-    🚫 Bannir un utilisateur
-
+<div class="admin-item" onclick="ouvrirActionAdmin('bannir')">
+🚫 Bannir un utilisateur
 </div>
 
 
-<div class="admin-item" onclick="supprimerCompte()">
-
-    🗑️ Supprimer un compte
-
+<div class="admin-item" onclick="ouvrirActionAdmin('supprimer')">
+🗑️ Supprimer un compte
 </div>
 
 
-<div class="admin-item" onclick="chercherPseudo()">
-
-    🔎 Chercher un pseudo
-
+<div class="admin-item" onclick="ouvrirActionAdmin('chercher')">
+🔎 Chercher un pseudo
 </div>
+
+
+<div id="zone-action-admin"></div>
 
 <div id="zone-recherche-user"></div>
 
