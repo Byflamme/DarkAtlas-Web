@@ -2690,7 +2690,7 @@ Ajouter
 
 const SUPABASE_URL = "https://nbxhfzhgkadecimgrjvz.supabase.co";
 
-const SUPABASE_KEY = "sb_publishable_SVJ_dVWvg8yxl6WOBMmCUg_1E3UaewE"
+const SUPABASE_KEY = "sb_publishable_SVJ_dVWvg8yxl6WOBMmCUg_1E3UaewE";
 
 
 async function voirComptes(){
@@ -3767,84 +3767,50 @@ async function creerCompte(){
     let password = document.getElementById("password").value;
 
 
-    if(pseudo==="" || password===""){
-
+    if(pseudo === "" || password === ""){
         alert("Remplis tous les champs");
         return;
-
     }
 
 
-
     let nouveauCompte = {
-
-        pseudo:pseudo,
-
-        password:password,
-
-        date_creation:new Date().toISOString()
-
+        pseudo: pseudo,
+        password: password,
+        role: "user"
     };
-
 
 
     let response = await fetch(
         SUPABASE_URL + "/rest/v1/users",
         {
-
             method:"POST",
 
             headers:{
-
                 "Content-Type":"application/json",
-
                 "apikey":SUPABASE_KEY,
-
-                "Authorization":"Bearer "+SUPABASE_KEY
-
+                "Authorization":"Bearer " + SUPABASE_KEY,
+                "Prefer":"return=minimal"
             },
 
             body:JSON.stringify(nouveauCompte)
-
         }
     );
 
 
-
     if(response.ok){
 
-
-        localStorage.setItem(
-
-            "darkatlas_user",
-
-            JSON.stringify({
-
-                pseudo:pseudo,
-
-                connecte:true
-
-            })
-
-        );
-
-
-        alert("Compte créé 🔥");
-
-
+        alert("Compte créé !");
         location.reload();
 
+    }else{
+
+        let erreur = await response.text();
+
+        console.log(erreur);
+
+        alert("Erreur création compte : " + erreur);
 
     }
-
-    else{
-
-
-        alert("Erreur création du compte");
-
-
-    }
-
 
 }
 
