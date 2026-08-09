@@ -14,6 +14,110 @@
 <style>
 
 
+
+/* ========================= */
+/* STATISTIQUES ACCUEIL */
+/* ========================= */
+
+.stats-section {
+
+    width:1100px;
+    max-width:95%;
+
+    margin:55px auto 0;
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:15px;
+
+}
+
+.stat-card {
+    padding: 30px;
+    border: 2px solid red;
+    border-radius: 20px;
+}
+
+.stat-card:hover {
+
+    border-color:#ff3333;
+
+    box-shadow:
+    0 0 25px rgba(255,0,0,.25);
+
+    transform:translateY(-4px);
+
+}
+
+.stat-number {
+
+    font-size:32px;
+
+    font-weight:bold;
+
+    color:#c6a8ff;
+
+    text-shadow:
+    0 0 15px rgba(170,100,255,.35);
+
+}
+
+.stat-label {
+
+    margin-top:12px;
+
+    font-size:13px;
+
+    color:#aaa;
+
+    letter-spacing:.5px;
+
+}
+
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .stats-section {
+
+        grid-template-columns:
+        repeat(2,1fr);
+
+        width:95%;
+
+        gap:10px;
+
+        margin-top:35px;
+
+    }
+
+    .stat-card {
+
+        min-height:105px;
+
+    }
+
+    .stat-number {
+
+        font-size:26px;
+
+    }
+
+    .stat-label {
+
+        font-size:11px;
+
+    }
+
+}
+
+
+
+
 .admin-page{
 
 display:none;
@@ -2331,6 +2435,33 @@ placeholder="Recherche...">
 
 
 
+<!-- STATISTIQUES ACCUEIL -->
+<section class="stats-section">
+
+    <div class="stat-card">
+        <div class="stat-number" id="stat-users">0</div>
+        <div class="stat-label">UTILISATEURS INSCRITS</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-number">180+</div>
+        <div class="stat-label">BASES DE DONNÉES</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-number">25TB+</div>
+        <div class="stat-label">VOLUME DE DONNÉES</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-number" id="stat-searches">692</div>
+        <div class="stat-label">RECHERCHES EFFECTUÉES</div>
+    </div>
+
+</section>
+
+
+
 
 <div id="panel">
 
@@ -2688,6 +2819,51 @@ Ajouter
 
 
 
+async function chargerStatistiques() {
+
+    try {
+
+        const response = await fetch(
+            SUPABASE_URL + "/rest/v1/users?select=id",
+            {
+                method: "GET",
+
+                headers: {
+    "apikey": SUPABASE_KEY
+}
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Impossible de récupérer les utilisateurs");
+        }
+
+        const range = response.headers.get("Content-Range");
+
+        if (range) {
+
+            const total = range.split("/")[1];
+
+            document.getElementById("stat-users").textContent =
+                total || "0";
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Erreur statistiques :",
+            error
+        );
+
+    }
+
+}
+
+
+
+
+
 const SUPABASE_URL = "https://nbxhfzhgkadecimgrjvz.supabase.co";
 
 const SUPABASE_KEY = "sb_publishable_SVJ_dVWvg8yxl6WOBMmCUg_1E3UaewE";
@@ -2695,97 +2871,127 @@ const SUPABASE_KEY = "sb_publishable_SVJ_dVWvg8yxl6WOBMmCUg_1E3UaewE";
 
 async function voirComptes(){
 
-let zone = document.getElementById("zone-recherche-user");
+    const zone = document.getElementById("zone-recherche-user");
+
+    zone.innerHTML = `
+        <div class="field">
+            ⏳ Chargement des comptes...
+        </div>
+    `;
+
+    try {
+
+        const response = await fetch(
+            SUPABASE_URL + "/rest/v1/users?select=id,pseudo,role,created_at",
+            {
+                method: "GET",
+
+                headers: {
+                    "apikey": SUPABASE_KEY,
+                    "Authorization": "Bearer " + SUPABASE_KEY
+                }
+            }
+        );
+
+        if(!response.ok){
+
+            const erreur = await response.text();
+
+            throw new Error(erreur);
+
+        }
+
+        const comptes = await response.json();
+
+        if(!Array.isArray(comptes) || comptes.length === 0){
+
+            zone.innerHTML = `
+                <div class="field">
+                    <label>👥 Liste des comptes</label>
+                    <p>Aucun compte trouvé.</p>
+                </div>
+            `;
+
+            return;
+        }
 
 
-zone.innerHTML = "⏳ Chargement des comptes...";
+        let html = `
+            <div class="field">
+
+                <label>
+                    👥 Liste des comptes (${comptes.length})
+                </label>
+
+            </div>
+        `;
 
 
-let response = await fetch(
-SUPABASE_URL + "/rest/v1/users?select=*",
-{
-method:"GET",
+        comptes.forEach(user => {
 
-headers:{
-"apikey":SUPABASE_KEY,
-"Authorization":"Bearer " + SUPABASE_KEY
-}
+            html += `
 
-});
+                <div class="field">
 
+                    <label>
+                        👤 ${user.pseudo || "Sans pseudo"}
+                    </label>
 
-let comptes = await response.json();
+                    <p>
+                        🆔 ID : ${user.id}
+                    </p>
 
+                    <p>
+                        🛡️ Rôle : ${user.role || "user"}
+                    </p>
 
+                    <p>
+                        📅 Créé le :
+                        ${user.created_at
+                            ? new Date(user.created_at).toLocaleString("fr-FR")
+                            : "Inconnu"
+                        }
+                    </p>
 
-if(comptes.length === 0){
+                    <button
+                        class="account-btn"
+                        onclick="supprimerCompte('${user.id}')">
 
-zone.innerHTML = `
-<div class="card">
-Aucun compte trouvé.
-</div>
-`;
+                        🗑️ Supprimer
 
-return;
+                    </button>
 
-}
+                </div>
 
+            `;
 
-
-let html = `
-<div class="card">
-
-<h2>
-👥 Liste des comptes
-</h2>
-
-</div>
-`;
-
+        });
 
 
-comptes.forEach(user=>{
+        zone.innerHTML = html;
 
 
-html += `
+    } catch(error){
 
-<div class="card">
+        console.error(error);
 
-<h2>
-👤 ${user.pseudo}
-</h2>
+        zone.innerHTML = `
 
+            <div class="field">
 
-<p>
-🔑 Mot de passe : ${user.password}
-</p>
+                <label>
+                    ❌ Erreur
+                </label>
 
+                <p>
+                    ${error.message}
+                </p>
 
-<p>
-📅 Créé le : ${user.date_creation || "Inconnu"}
-</p>
+            </div>
 
+        `;
 
-<button 
-class="account-btn"
-onclick="supprimerCompte('${user.id}')">
-
-🗑️ Supprimer
-
-</button>
-
-
-</div>
-
-`;
-
-
-});
-
-
-
-zone.innerHTML = html;
-
+    }
 
 }
 
@@ -3950,21 +4156,7 @@ let zone = document.getElementById("zone-action-admin");
 
 if(type==="comptes"){
 
-zone.innerHTML = `
-
-<div class="field">
-
-<label>
-👤 Liste des comptes
-</label>
-
-<p>
-Aucun compte chargé pour le moment.
-</p>
-
-</div>
-
-`;
+    voirComptes();
 
 }
 
@@ -4224,6 +4416,12 @@ alert("🗑️ "+pseudo+" supprimé");
 
 }
 
+
+window.addEventListener("load", function() {
+
+    chargerStatistiques();
+
+});
 
 
 
