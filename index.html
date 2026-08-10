@@ -2367,20 +2367,23 @@ Connexion
 </nav>
 
 <button id="user-zone" class="login-btn" onclick="ouvrirCompte()">
-
-<i class="fa-regular fa-user"></i>
-
-Connexion
+    <i class="fa-regular fa-user"></i>
+    Connexion
+</button>
 
 <button
-id="admin-btn"
-class="login-btn"
-style="display:none;"
-onclick="ouvrirAdmin()">
-
-👑 Admin
-
+    id="admin-btn"
+    class="login-btn"
+    style="display:none;"
+    onclick="ouvrirAdmin()">
+    👑 Admin
 </button>
+
+<span id="online-users">
+    🟢 <span id="online-number">0</span> en ligne
+</span>
+
+
 
 </header>
 
@@ -2443,6 +2446,8 @@ placeholder="Recherche...">
         <div class="stat-label">UTILISATEURS INSCRITS</div>
     </div>
 
+
+    
     <div class="stat-card">
         <div class="stat-number">180+</div>
         <div class="stat-label">BASES DE DONNÉES</div>
@@ -4567,6 +4572,64 @@ window.addEventListener("load", function() {
 </div>
 
 </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const onlineClient = window.supabase.createClient(
+    "https://nbxhfzhgkadecimgrjvz.supabase.co",
+    "sb_publishable_SVJ_dVWvg8yxl6WOBMmCUg_1E3UaewE"
+);
+
+const visitorId = crypto.randomUUID();
+
+const onlineChannel = onlineClient.channel(
+    "dark-atlas-online",
+    {
+        config: {
+            presence: {
+                key: visitorId
+            }
+        }
+    }
+);
+
+function updateOnlineCount() {
+
+    const state = onlineChannel.presenceState();
+
+    let count = 0;
+
+    for (const key in state) {
+        count += state[key].length;
+    }
+
+    const number = document.getElementById("online-number");
+
+    if (number) {
+        number.textContent = count;
+    }
+}
+
+onlineChannel
+    .on("presence", { event: "sync" }, updateOnlineCount)
+    .on("presence", { event: "join" }, updateOnlineCount)
+    .on("presence", { event: "leave" }, updateOnlineCount)
+    .subscribe(async (status) => {
+
+        if (status === "SUBSCRIBED") {
+
+            await onlineChannel.track({
+                online: true
+            });
+
+        }
+
+    });
+
+</script>
 
 
 </body>
