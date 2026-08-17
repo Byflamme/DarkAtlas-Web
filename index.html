@@ -2526,6 +2526,11 @@ Connexion
     style="display:none;"
     onclick="ouvrirAdmin()">
     👑 Admin
+
+
+
+
+
 </button>
 
 </span>
@@ -2589,9 +2594,9 @@ placeholder="Recherche...">
 <section class="stats-section">
 
     <div class="stat-card">
-        <div class="stat-number" id="stat-users">14</div>
-        <div class="stat-label">UTILISATEURS INSCRITS</div>
-    </div>
+    <div id="users-count">0</div>
+    <span>UTILISATEURS INSCRITS</span>
+</div>
 
 
     
@@ -4853,6 +4858,45 @@ onlineChannel
     });
 </script>
 </script>
+
+
+
+
+
+<script>
+async function chargerNombreUtilisateurs() {
+    try {
+        const response = await fetch(
+            SUPABASE_URL + "/rest/v1/users?select=id",
+            {
+                method: "GET",
+                headers: {
+                    "apikey": SUPABASE_KEY
+                }
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Erreur Supabase : " + response.status);
+        }
+
+        const utilisateurs = await response.json();
+
+        const compteur = document.getElementById("users-count");
+
+        if (compteur) {
+            compteur.textContent = utilisateurs.length;
+        }
+
+    } catch (error) {
+        console.error("Erreur compteur utilisateurs :", error);
+    }
+}
+
+
+await chargerNombreUtilisateurs();
+</script>
+
 
 
 
