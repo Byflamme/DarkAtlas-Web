@@ -2289,33 +2289,6 @@ padding:20px;
 
 
 
-
-
-#online-counter {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 9px 13px;
-    background: #080808;
-    border: 1px solid #292929;
-    border-radius: 12px;
-    color: #aaa;
-    font-size: 13px;
-    white-space: nowrap;
-}
-
-.online-dot {
-    width: 8px;
-    height: 8px;
-    background: #35d06f;
-    border-radius: 50%;
-    box-shadow: 0 0 8px #35d06f;
-}
-
-
-
-
-
 </style>
 
 
@@ -2484,19 +2457,10 @@ Connexion
 
 </nav>
 
-<div style="display:flex; align-items:center; gap:10px;">
-
-    <button id="user-zone" class="login-btn" onclick="ouvrirCompte()">
-        <i class="fa-regular fa-user"></i>
-        Connexion
-    </button>
-
-    <span id="online-counter">
-        <span class="online-dot"></span>
-        <span id="online-number">0</span> en ligne
-    </span>
-
-</div>
+<button id="user-zone" class="login-btn" onclick="ouvrirCompte()">
+    <i class="fa-regular fa-user"></i>
+    Connexion
+</button>
 
 <button
     id="admin-btn"
