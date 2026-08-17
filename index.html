@@ -4871,30 +4871,32 @@ async function chargerNombreUtilisateurs() {
             {
                 method: "GET",
                 headers: {
-                    "apikey": SUPABASE_KEY
+                    "apikey": SUPABASE_KEY,
+                    "Content-Type": "application/json"
                 }
             }
         );
 
-        if (!response.ok) {
-            throw new Error("Erreur Supabase : " + response.status);
-        }
+        const data = await response.json();
 
-        const utilisateurs = await response.json();
+        console.log("👥 Comptes Supabase :", data);
+
+        if (!response.ok) {
+            console.error("❌ Supabase :", data);
+            return;
+        }
 
         const compteur = document.getElementById("users-count");
 
         if (compteur) {
-            compteur.textContent = utilisateurs.length;
+            compteur.textContent = data.length;
         }
-
     } catch (error) {
-        console.error("Erreur compteur utilisateurs :", error);
+        console.error("❌ Erreur compteur :", error);
     }
 }
 
-
-await chargerNombreUtilisateurs();
+chargerNombreUtilisateurs();
 </script>
 
 
