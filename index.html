@@ -4771,6 +4771,7 @@ window.addEventListener("load", function() {
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+console.log("🔥 DARK ATLAS - Presence démarrage");
 
 const onlineClient = window.supabase.createClient(
     "https://nbxhfzhgkadecimgrjvz.supabase.co",
@@ -4779,70 +4780,78 @@ const onlineClient = window.supabase.createClient(
 
 const visitorId = crypto.randomUUID();
 
-const onlineChannel = onlineClient.channel(
-    "dark-atlas-online",
-    {
-        config: {
-            presence: {
-                key: visitorId
-            }
+console.log("🆔 Visitor ID :", visitorId);
+
+const onlineChannel = onlineClient.channel("dark-atlas-online", {
+    config: {
+        presence: {
+            key: visitorId
         }
     }
-);
+});
 
 function updateOnlineCount() {
 
     const state = onlineChannel.presenceState();
 
+    console.log("👥 Presence state :", state);
+
     let count = 0;
 
-    for (const key in state) {
-        count += state[key].length;
-    }
+    Object.values(state).forEach(users => {
+        count += users.length;
+    });
+
+    console.log("🟢 UTILISATEURS EN LIGNE :", count);
 
     const number = document.getElementById("online-number");
 
     if (number) {
         number.textContent = count;
+    } else {
+        console.error("❌ #online-number introuvable");
     }
 }
 
 onlineChannel
-    .on("presence", { event: "sync" }, updateOnlineCount)
-    .on("presence", { event: "join" }, updateOnlineCount)
-    .on("presence", { event: "leave" }, updateOnlineCount)
-    .subscribe(async (status) => {
+    .on("presence", { event: "sync" }, () => {
+        console.log("🔄 Presence SYNC");
+        updateOnlineCount();
+    })
+
+    .on("presence", { event: "join" }, (payload) => {
+        console.log("➕ JOIN :", payload);
+        updateOnlineCount();
+    })
+
+    .on("presence", { event: "leave" }, (payload) => {
+        console.log("➖ LEAVE :", payload);
+        updateOnlineCount();
+    })
+
+    .subscribe(async (status, error) => {
+
+        console.log("📡 Supabase Presence :", status);
+
+        if (error) {
+            console.error("❌ ERREUR SUPABASE :", error);
+        }
 
         if (status === "SUBSCRIBED") {
 
-            await onlineChannel.track({
-                online: true
+            console.log("✅ CONNECTÉ À SUPABASE REALTIME");
+
+            const result = await onlineChannel.track({
+                online: true,
+                timestamp: Date.now()
             });
 
+            console.log("📍 Track result :", result);
+
+            updateOnlineCount();
         }
-
     });
-
 </script>
-
-
-
-
-<script>
-function updateResultCount(results) {
-    const count = Array.isArray(results) ? results.length : 0;
-
-    const rawCount = document.getElementById("raw-count");
-    const resultCount = document.getElementById("result-count");
-
-    if (rawCount) {
-        rawCount.textContent = count;
-    }
-
-    if (resultCount) {
-        resultCount.textContent = count;
-    }
-}
 </script>
 
 
