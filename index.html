@@ -15,6 +15,78 @@
 
 
 
+
+
+
+#maintenance-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background: #050505;
+    color: white;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.maintenance-box {
+    max-width: 500px;
+    padding: 40px;
+}
+
+.maintenance-icon {
+    font-size: 60px;
+    margin-bottom: 20px;
+}
+
+.maintenance-box h1 {
+    font-size: 32px;
+    margin: 0 0 10px;
+}
+
+.maintenance-box h2 {
+    color: #aaa;
+    margin-bottom: 20px;
+}
+
+.maintenance-box p {
+    color: #777;
+    margin: 8px 0;
+}
+
+
+
+
+
+
+
+
+.results-stats {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.result-badge {
+    padding: 6px 11px;
+    background: #111116;
+    border: 1px solid #2a2a32;
+    border-radius: 6px;
+    color: #aaa;
+    font-size: 12px;
+}
+
+.result-badge.green {
+    color: #aaa;
+    border-color: #2a2a32;
+}
+
+
+
+
+
 /* ========================= */
 /* STATISTIQUES ACCUEIL */
 /* ========================= */
@@ -2227,6 +2299,24 @@ padding:20px;
 
 
 
+
+
+    <div id="maintenance-screen" style="display:none;">
+    <div class="maintenance-box">
+        <div class="maintenance-icon">🔒</div>
+        <h1>Dark Atlas</h1>
+        <h2>Site temporairement fermé par Le Fondateur 👑 </h2>
+        <p>Dark Atlas est actuellement indisponible.</p>
+        <p>Revenez plus tard.</p>
+    </div>
+</div>
+
+
+
+
+
+
+
 <div id="login-page">
 
 
@@ -2379,8 +2469,6 @@ Connexion
     👑 Admin
 </button>
 
-<span id="online-users">
-    🟢 <span id="online-number">0</span> en ligne
 </span>
 
 
@@ -3384,6 +3472,9 @@ fonction:recherche["Fonction"] || ""
 
 let data=await response.json();
 
+
+
+
 console.log("DATA COMPLETE :", JSON.stringify(data,null,2));
 
 console.log(data);
@@ -3409,12 +3500,56 @@ return;
 
 
 
+
+
+
+const nombreResultats = data.data.results.length;
+
+const rawCount = document.getElementById("raw-count");
+const resultCount = document.getElementById("result-count");
+
+if (rawCount) {
+    rawCount.textContent = nombreResultats;
+}
+
+if (resultCount) {
+    resultCount.textContent = nombreResultats;
+}
+
+
+
+
+
+
 let html=`
 
 
 <div class="results-title">
 
 🔥 Résultats 𝔇𝔞𝔯𝔨 𝔄𝔱𝔩𝔞𝔰
+
+
+<div class="results-stats">
+    <span class="result-badge">
+        <span id="raw-count">0</span> bruts
+    </span>
+
+    <span class="result-badge green">
+        <span id="result-count">0</span> résultats
+    </span>
+</div>
+
+
+
+<div class="results-stats">
+    <span class="result-badge">
+        <span id="raw-count">0</span> bruts
+    </span>
+
+    <span class="result-badge green">
+        <span id="result-count">0</span> résultats
+    </span>
+</div>
 
 </div>
 
@@ -3960,8 +4095,8 @@ window.addEventListener("load", function(){
         document.getElementById("user-zone").innerHTML =
         "🔥 " + user.pseudo;
 
-        // Seul La_flamme voit le bouton Admin
-        if(user.pseudo === "La_flamme"){
+        // Seul La_flamme@92230 voit le bouton Admin
+        if(user.pseudo === "La_flamme@92230"){
             document.getElementById("admin-btn").style.display = "inline-block";
         }
 
@@ -4360,7 +4495,7 @@ window.addEventListener("load", function(){
     let adminBtn = document.getElementById("admin-btn");
 
 
-    if(user && user.pseudo === "La_flamme"){
+    if(user && user.pseudo === "La_flamme@92230"){
 
         adminBtn.style.display = "inline-block";
 
@@ -4630,6 +4765,40 @@ onlineChannel
     });
 
 </script>
+
+
+
+
+<script>
+function updateResultCount(results) {
+    const count = Array.isArray(results) ? results.length : 0;
+
+    const rawCount = document.getElementById("raw-count");
+    const resultCount = document.getElementById("result-count");
+
+    if (rawCount) {
+        rawCount.textContent = count;
+    }
+
+    if (resultCount) {
+        resultCount.textContent = count;
+    }
+}
+</script>
+
+
+
+
+<script>
+const SITE_OUVERT = false;
+
+if (!SITE_OUVERT) {
+    document.getElementById("maintenance-screen").style.display = "flex";
+}
+</script>
+
+
+
 
 
 </body>
